@@ -1,67 +1,75 @@
+local map = vim.keymap.set
+
 -- Fast enter normal mode
-vim.keymap.set("i", "jj", "<Esc>")
+map("i", "jj", "<Esc>")
 
 -- Fast quit
-vim.keymap.set("n", "<leader>q", "<cmd>q!<cr>")
+map("n", "<leader>q", "<cmd>q!<cr>", { desc = "Quit" })
 
 -- Enter NvimTree
-vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeFocus<cr>")
+map("n", "<leader>e", "<cmd>NvimTreeFocus<cr>", { desc = "Focus NvimTree" })
 
 -- Save
-vim.keymap.set("n", "<leader>w", "<cmd>w<cr>")
+map("n", "<leader>w", "<cmd>w<cr>", { desc = "Save" })
 
 -- Switch between windows
-vim.keymap.set({ "n", "t" }, "<C-h>", "<cmd>wincmd h<cr>")
-vim.keymap.set({ "n", "t" }, "<C-l>", "<cmd>wincmd l<cr>")
-vim.keymap.set({ "n", "t" }, "<C-j>", "<cmd>wincmd j<cr>")
-vim.keymap.set({ "n", "t" }, "<C-k>", "<cmd>wincmd k<cr>")
+map({ "n", "t" }, "<C-h>", "<cmd>wincmd h<cr>")
+map({ "n", "t" }, "<C-l>", "<cmd>wincmd l<cr>")
+map({ "n", "t" }, "<C-j>", "<cmd>wincmd j<cr>")
+map({ "n", "t" }, "<C-k>", "<cmd>wincmd k<cr>")
 
 -- Buffer manipulation
-vim.keymap.set("n", "<leader>x", "<cmd>BufferClose<cr>")
-vim.keymap.set("n", "<S-Tab>", "<cmd>BufferPrevious<cr>")
-vim.keymap.set("n", "<Tab>", "<cmd>BufferNext<cr>")
+map("n", "<leader>x", "<cmd>BufferClose<cr>", { desc = "Close buffer" })
+map("n", "<S-Tab>", "<cmd>BufferPrevious<cr>", { desc = "Previous buffer" })
+map("n", "<Tab>", "<cmd>BufferNext<cr>", { desc = "Next buffer" })
 
 -- Format
-vim.keymap.set("n", "<leader>fm", "<cmd>Format<cr>")
+map("n", "<leader>fm", "<cmd>Format<cr>", { desc = "Format code" })
 
 -- Split window
-vim.keymap.set("n", "\\", "<cmd>:vsplit<cr>")
+map("n", "\\", "<cmd>:vsplit<cr>", { desc = "Open split window" })
 
 -- Trouble toggle
-vim.keymap.set("n", "<leader>lf", "<cmd>Trouble diagnostics toggle<cr>")
+map("n", "<leader>lf", "<cmd>Trouble diagnostics toggle<cr>", { desc = "Show diagnostics" })
 
 -- Lsp code actions
-vim.keymap.set("n", "<leader>ca", function()
+map("n", "<leader>ca", function()
 	vim.lsp.buf.code_action()
-end)
-vim.keymap.set("n", "<leader>ld", function()
+end, { desc = "Code actions" })
+map("n", "<leader>ld", function()
 	vim.lsp.buf.definition()
-end)
-vim.keymap.set("n", "<leader>lr", function()
+end, { desc = "Code. Go to definition" })
+map("n", "<leader>lr", function()
 	vim.lsp.buf.references()
-end)
+end, { desc = "Code. Go to references" })
+map("n", "<leader>ra", vim.lsp.buf.rename, { desc = "Code. Rename variable" })
 
 -- Alt rows replacement
-vim.keymap.set("n", "<A-j>", ":m .+1<CR>==")
-vim.keymap.set("n", "<A-k>", ":m .-2<CR>==")
-vim.keymap.set("v", "<A-j>", ":m '>+1<CR>gv=gv")
-vim.keymap.set("v", "<A-k>", ":m '<-2<CR>gv=gv")
+map("n", "<A-j>", ":m .+1<CR>==")
+map("n", "<A-k>", ":m .-2<CR>==")
+map("v", "<A-j>", ":m '>+1<CR>gv=gv")
+map("v", "<A-k>", ":m '<-2<CR>gv=gv")
 
 -- Enter lazygit
-vim.keymap.set("n", "<leader>gg", "<cmd>LazyGit<cr>", { desc = "Open Lazygit" })
+map("n", "<leader>gg", "<cmd>LazyGit<cr>", { desc = "Open Lazygit" })
 
 -- Tabulation
-vim.keymap.set("v", ">", ">gv")
-vim.keymap.set("v", "<", "<gv")
+map("v", ">", ">gv")
+map("v", "<", "<gv")
 
 -- Telescope
-vim.keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>")
-vim.keymap.set("n", "<leader>fw", "<cmd>Telescope live_grep<cr>")
+map("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Find files" })
+map("n", "<leader>fw", "<cmd>Telescope live_grep<cr>", { desc = "Find with regex" })
+map("n", "<leader>fo", "<cmd>Telescope oldfiles<cr>", { desc = "Find old files" })
 
 -- Terminal
-vim.keymap.set({ "n", "t" }, "<A-h>", function()
+map({ "n", "t" }, "<A-h>", function()
 	require("toggleterm").toggle(1, nil, vim.fn.getcwd(), "horizontal")
-end)
-vim.keymap.set({ "n", "t" }, "<A-i>", function()
+end, { desc = "Open horizontal terminal" })
+map({ "n", "t" }, "<A-i>", function()
 	require("toggleterm").toggle(2, nil, vim.fn.getcwd(), "float")
-end)
+end, { desc = "Open float terminal" })
+
+-- Managers
+map("n", "<leader>ml", "<cmd>Lazy<cr>", { desc = "Open Lazy" })
+map("n", "<leader>mm", "<cmd>Mason<cr>", { desc = "Open Mason" })

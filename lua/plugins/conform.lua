@@ -1,6 +1,24 @@
 return {
 	"stevearc/conform.nvim",
 	config = function()
+		local conform = require("conform")
+		conform.setup({
+			formatters_by_ft = {
+				go = { "gofmt" },
+				lua = { "stylua" },
+				css = { "prettierd" },
+				scss = { "prettierd" },
+				html = { "prettierd" },
+				javascript = { "prettierd" },
+				typescript = { "prettierd" },
+				javascriptreact = { "prettierd" },
+				typescriptreact = { "prettierd" },
+				json = { "prettierd" },
+				sql = { "pgformatter" },
+				toml = { "taplo" },
+				python = { "autopep8" },
+			},
+		})
 		vim.api.nvim_create_user_command("Format", function(args)
 			local range = nil
 			if args.count ~= -1 then
@@ -10,14 +28,7 @@ return {
 					["end"] = { args.line2, end_line:len() },
 				}
 			end
-			require("conform").format({ async = true, lsp_format = "fallback", range = range })
+			conform.format({ async = true, lsp_format = "fallback", range = range })
 		end, { range = true })
 	end,
-	opts = {
-		formatters_by_ft = {
-			-- javascript = { "prettierd" },
-			-- typescript = { "prettierd" },
-			lua = { "stylua" },
-		},
-	},
 }

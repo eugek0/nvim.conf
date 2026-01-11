@@ -30,16 +30,43 @@ return {
 	},
 
 	{
-		"lewis6991/gitsigns.nvim",
+		"folke/which-key.nvim",
+		event = "VeryLazy",
+		opts = {
+			preset = "helix",
+		},
+		keys = {
+			{
+				"<leader>?",
+				function()
+					require("which-key").show({ global = false })
+				end,
+				desc = "Buffer Local Keymaps (which-key)",
+			},
+		},
+	},
+
+	{
+		"nvim-mini/mini.diff",
+		version = "*",
 		config = function()
-			require("gitsigns").setup()
+			require("mini.diff").setup({
+				view = {
+					style = vim.opt.number and "number" or "sign",
+				},
+			})
 		end,
 	},
 
 	{
 		"echasnovski/mini.pairs",
 		config = function()
-			require("mini.pairs").setup()
+			require("mini.pairs").setup({
+				mappings = {
+					["<"] = { action = "open", pair = "<>", neigh_pattern = "[^\\]." },
+					[">"] = { action = "close", pair = "<>", neigh_pattern = "[^\\]." },
+				},
+			})
 		end,
 	},
 
@@ -67,13 +94,6 @@ return {
 			})
 
 			vim.notify = require("notify")
-		end,
-	},
-
-	{
-		"petertriho/nvim-scrollbar",
-		config = function()
-			require("scrollbar").setup()
 		end,
 	},
 
