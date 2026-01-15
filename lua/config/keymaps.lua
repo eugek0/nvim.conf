@@ -73,3 +73,9 @@ end, { desc = "Open float terminal" })
 -- Managers
 map("n", "<leader>ml", "<cmd>Lazy<cr>", { desc = "Open Lazy" })
 map("n", "<leader>mm", "<cmd>Mason<cr>", { desc = "Open Mason" })
+
+-- AI Keymaps
+map("n", "<leader>aii", "<cmd>PrtImplement<cr>", { desc = "AI. Implement commentary" })
+map("n", "<leader>aia", "<cmd>PrtAsk<cr>", { desc = "AI. Ask AI" })
+map("n", "<leader>aic", "<cmd>PrtChatToggle<cr>", { desc = "AI. Open chat" })
+map("n", "<leader>air", "<cmd>PrtChatResponde<cr>", { desc = "AI. Response an answer in chat" })
