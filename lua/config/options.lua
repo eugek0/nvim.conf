@@ -5,6 +5,8 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.g.syntax_on = false
 vim.opt.termguicolors = true
+vim.o.ignorecase = true
+vim.o.smartcase = true
 
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
