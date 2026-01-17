@@ -8,6 +8,12 @@ vim.opt.termguicolors = true
 vim.o.ignorecase = true
 vim.o.smartcase = true
 
+vim.api.nvim_create_autocmd("TextYankPost", {
+	callback = function()
+		vim.highlight.on_yank()
+	end,
+})
+
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
