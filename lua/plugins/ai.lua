@@ -19,19 +19,17 @@ return {
 							}
 						end,
 						topic = {
-							model = "r1-1776",
+							model = "sonar-pro",
 							params = {
 								max_tokens = 64,
 							},
 						},
 						models = {
-              "gpt-5.2",
 							"sonar",
 							"sonar-pro",
 							"sonar-deep-research",
 							"sonar-reasoning",
 							"sonar-reasoning-pro",
-							"r1-1776",
 						},
 					},
 				},
