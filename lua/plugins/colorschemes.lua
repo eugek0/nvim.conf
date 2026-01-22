@@ -1,5 +1,25 @@
 return {
 	{
+		"navarasu/onedark.nvim",
+		lazy = false,
+		priority = 1000,
+		config = function()
+			require("onedark").setup({ style = "cool" })
+			require("onedark").load() -- Call load() after setup
+		end,
+	},
+
+	{
+		"folke/tokyonight.nvim",
+		lazy = false,
+		priority = 1000,
+		opts = {
+			transparent = false,
+			styles = { sidebars = "dark", floats = "dark" },
+		},
+	},
+
+	{
 		"ellisonleao/gruvbox.nvim",
 		priority = 1000,
 		config = function()
