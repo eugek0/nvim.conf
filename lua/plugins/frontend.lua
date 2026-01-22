@@ -12,6 +12,11 @@ return {
 	-- },
 
 	{
+		"nvzone/minty",
+		cmd = { "Shades", "Huefy" },
+	},
+
+	{
 		"dmmulroy/tsc.nvim",
 		config = function()
 			require("tsc").setup({
@@ -22,6 +27,5 @@ return {
 
 	{
 		"mattn/emmet-vim",
-		opts = {},
 	},
 }

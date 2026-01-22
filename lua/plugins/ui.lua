@@ -16,6 +16,11 @@ return {
 	},
 
 	{
+		"nvzone/volt",
+		lazy = true,
+	},
+
+	{
 		"nvim-lualine/lualine.nvim",
 		opts = {},
 	},
