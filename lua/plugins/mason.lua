@@ -22,7 +22,6 @@ return {
 				"eslint_d",
 				"gopls",
 				"golangci-lint",
-				"typescript-language-server",
 				"eslint-lsp",
 				"prisma-language-server",
 				"rust-analyzer",
