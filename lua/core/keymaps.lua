@@ -7,7 +7,7 @@ map("i", "jj", "<Esc>")
 map("n", "<leader>q", "<cmd>q!<cr>", { desc = "Quit" })
 
 -- Enter Neotree
-map("n", "<leader>e", "<cmd>Neotree<cr>", { desc = "Focus Neotree" })
+map("n", "<leader>e", "<cmd>Neotree reveal<cr>", { desc = "Focus Neotree" })
 
 -- Save
 map("n", "<leader>w", "<cmd>w<cr>", { desc = "Save" })
