@@ -3,13 +3,18 @@ return {
 		"nvim-treesitter/nvim-treesitter",
 		lazy = false,
 		build = ":TSUpdate",
-		opts = {
-			highlight = {
-				enable = true,
-				additional_vim_regex_highlighting = false,
-			},
-			indent = { enable = true },
-			ensure_installed = {
+		config = function()
+			local treesitter = require("nvim-treesitter")
+
+			treesitter.setup({
+				install_dir = vim.fn.stdpath("data") .. "/site",
+				indent = { enable = true },
+				highlight = {
+					additional_vim_regex_highlighting = false,
+					enable = true,
+				},
+			})
+			treesitter.install({
 				"lua",
 				"html",
 				"css",
@@ -24,7 +29,7 @@ return {
 				"cpp",
 				"bash",
 				"sql",
-			},
-		},
+			})
+		end,
 	},
 }
