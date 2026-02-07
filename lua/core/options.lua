@@ -20,5 +20,5 @@ vim.opt.expandtab = true
 vim.opt.mouse = "a"
 vim.opt.clipboard = "unnamedplus"
 
-vim.cmd("colorscheme tokyonight")
+vim.cmd("colorscheme bamboo-multiplex")
 vim.o.background = "dark"

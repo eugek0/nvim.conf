@@ -6,8 +6,8 @@ map("i", "jj", "<Esc>")
 -- Fast quit
 map("n", "<leader>q", "<cmd>q!<cr>", { desc = "Quit" })
 
--- Enter NvimTree
-map("n", "<leader>e", "<cmd>NvimTreeFocus<cr>", { desc = "Focus NvimTree" })
+-- Enter Neotree
+map("n", "<leader>e", "<cmd>Neotree<cr>", { desc = "Focus Neotree" })
 
 -- Save
 map("n", "<leader>w", "<cmd>w<cr>", { desc = "Save" })
@@ -43,6 +43,7 @@ map("n", "<leader>lr", function()
 	vim.lsp.buf.references()
 end, { desc = "Code. Go to references" })
 map("n", "<leader>ra", vim.lsp.buf.rename, { desc = "Code. Rename variable" })
+map("n", "<leader>ori", "<cmd>TSToolsOrganizeImports<cr>", { desc = "Code. Organize imports" })
 
 -- Alt rows replacement
 map("n", "<A-j>", ":m .+1<CR>==")
