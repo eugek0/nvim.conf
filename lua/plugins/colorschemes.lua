@@ -20,17 +20,18 @@ return {
 	},
 
 	{
-		"ellisonleao/gruvbox.nvim",
+		"sainnhe/gruvbox-material",
+		lazy = false,
 		priority = 1000,
 		config = function()
-			require("gruvbox").setup()
+			vim.g.gruvbox_material_enable_italic = true
 		end,
-		opts = ...,
 	},
 
 	{
 		"catppuccin/nvim",
 		name = "catppuccin",
+		lazy = false,
 		priority = 1000,
 		config = function()
 			require("catppuccin").setup()
