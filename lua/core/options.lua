@@ -7,6 +7,8 @@ vim.g.syntax_on = false
 vim.opt.termguicolors = true
 vim.o.ignorecase = true
 vim.o.smartcase = true
+vim.opt.scrolloff = 8
+vim.opt.wrap = false
 
 vim.api.nvim_create_autocmd("TextYankPost", {
 	callback = function()
