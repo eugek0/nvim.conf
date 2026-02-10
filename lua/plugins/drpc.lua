@@ -5,12 +5,12 @@ return {
 		build = ":Cord update",
 		opts = {
 			editor = {
-				client = "nvchad",
-				tooltip = "NvChad",
+				client = "neovim",
+				tooltip = "Neovim",
 			},
 
 			display = {
-				theme = "atom",
+				theme = "minecraft",
 				flavor = "accent",
 			},
 		},
