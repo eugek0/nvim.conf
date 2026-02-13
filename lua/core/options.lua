@@ -9,6 +9,7 @@ vim.o.ignorecase = true
 vim.o.smartcase = true
 vim.opt.scrolloff = 8
 vim.opt.wrap = false
+vim.opt.cursorline = true
 
 vim.api.nvim_create_autocmd("TextYankPost", {
 	callback = function()
