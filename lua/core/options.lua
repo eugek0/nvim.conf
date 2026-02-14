@@ -26,7 +26,3 @@ vim.opt.clipboard = "unnamedplus"
 
 vim.cmd("colorscheme gruvbox-material")
 vim.o.background = "dark"
-
-vim.api.nvim_set_hl(0, "CursorLine", { bg = "#282928", fg = "NONE" })
-vim.api.nvim_set_hl(0, "Visual", { bg = "#282928", fg = "NONE" })
-vim.api.nvim_set_hl(0, "LineNr", { fg = "#786d65" })
