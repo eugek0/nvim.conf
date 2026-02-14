@@ -9,6 +9,7 @@ vim.o.ignorecase = true
 vim.o.smartcase = true
 vim.opt.scrolloff = 8
 vim.opt.wrap = false
+
 vim.opt.cursorline = true
 
 vim.api.nvim_create_autocmd("TextYankPost", {
@@ -25,3 +26,7 @@ vim.opt.clipboard = "unnamedplus"
 
 vim.cmd("colorscheme gruvbox-material")
 vim.o.background = "dark"
+
+vim.api.nvim_set_hl(0, "CursorLine", { bg = "#282928", fg = "NONE" })
+vim.api.nvim_set_hl(0, "Visual", { bg = "#282928", fg = "NONE" })
+vim.api.nvim_set_hl(0, "LineNr", { fg = "#786d65" })

@@ -1,3 +1,4 @@
+local buffers = require("utils.buffers")
 local map = vim.keymap.set
 
 -- Fast enter normal mode
@@ -19,9 +20,12 @@ map({ "n", "t" }, "<C-j>", "<cmd>wincmd j<cr>")
 map({ "n", "t" }, "<C-k>", "<cmd>wincmd k<cr>")
 
 -- Buffer manipulation
-map("n", "<leader>x", "<cmd>BufferClose<cr>", { desc = "Close buffer" })
-map("n", "<S-Tab>", "<cmd>BufferPrevious<cr>", { desc = "Previous buffer" })
-map("n", "<Tab>", "<cmd>BufferNext<cr>", { desc = "Next buffer" })
+map("n", "<leader>x", function()
+	buffers.safe_buffer_close()
+end, { desc = "Close buffer" })
+map("n", "<leader>X", "<cmd>BufferLineCloseOthers<cr>", { desc = "Close other buffers" })
+map("n", "<S-Tab>", "<cmd>BufferLineCyclePrev<cr>", { desc = "Previous buffer" })
+map("n", "<Tab>", "<cmd>BufferLineCycleNext<cr>", { desc = "Next buffer" })
 
 -- Format
 map("n", "<leader>fm", "<cmd>Format<cr>", { desc = "Format code" })

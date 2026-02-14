@@ -12,6 +12,7 @@ return {
 					},
 				},
 			})
+			vim.diagnostic.config({ virtual_text = false })
 		end,
 	},
 
@@ -54,19 +55,6 @@ return {
 				return package.loaded["nvim-web-devicons"]
 			end
 		end,
-	},
-
-	{
-		"romgrk/barbar.nvim",
-		dependencies = {
-			"nvim-tree/nvim-web-devicons",
-			"lewis6991/gitsigns.nvim",
-		},
-		init = function()
-			vim.g.barbar_auto_setup = false
-		end,
-		opts = {},
-		version = "^1.0.0",
 	},
 
 	{

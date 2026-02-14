@@ -14,8 +14,12 @@ return {
 		lazy = false,
 		priority = 1000,
 		opts = {
+			style = "night",
 			transparent = false,
-			styles = { sidebars = "dark", floats = "dark" },
+			styles = {
+				sidebars = "dark",
+				floats = "dark",
+			},
 		},
 	},
 
@@ -25,6 +29,7 @@ return {
 		priority = 1000,
 		config = function()
 			vim.g.gruvbox_material_enable_italic = true
+			vim.g.gruvbox_material_transparent_background = 2
 		end,
 	},
 
