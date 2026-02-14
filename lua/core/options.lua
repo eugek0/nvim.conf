@@ -1,3 +1,5 @@
+require("core.transparent")
+
 vim.opt.number = true
 vim.opt.relativenumber = true
 

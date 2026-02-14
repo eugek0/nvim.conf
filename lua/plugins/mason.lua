@@ -2,7 +2,14 @@ return {
 	{
 		"mason-org/mason-lspconfig.nvim",
 		dependencies = {
-			{ "mason-org/mason.nvim", opts = {} },
+			{
+				"mason-org/mason.nvim",
+				opts = {
+					ui = {
+						border = "rounded", -- варианты такие же
+					},
+				},
+			},
 			"neovim/nvim-lspconfig",
 		},
 		opts = {
