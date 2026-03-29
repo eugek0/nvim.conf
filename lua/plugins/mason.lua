@@ -20,6 +20,7 @@ return {
 				"css-lsp",
 				"prettierd",
 				"eslint_d",
+				"biome",
 				"gopls",
 				"golangci-lint",
 				"eslint-lsp",
