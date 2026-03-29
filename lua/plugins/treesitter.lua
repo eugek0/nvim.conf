@@ -15,6 +15,7 @@ return {
 				},
 			})
 			treesitter.install({
+				"go",
 				"lua",
 				"html",
 				"css",
