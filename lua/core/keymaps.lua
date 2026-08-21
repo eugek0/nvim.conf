@@ -79,8 +79,18 @@ end, { desc = "Open float terminal" })
 map("n", "<leader>ml", "<cmd>Lazy<cr>", { desc = "Open Lazy" })
 map("n", "<leader>mm", "<cmd>Mason<cr>", { desc = "Open Mason" })
 
--- AI Keymaps
-map("n", "<leader>aii", "<cmd>PrtImplement<cr>", { desc = "AI. Implement commentary" })
-map("n", "<leader>aia", "<cmd>PrtAsk<cr>", { desc = "AI. Ask AI" })
-map("n", "<leader>aic", "<cmd>PrtChatToggle<cr>", { desc = "AI. Open chat" })
-map("n", "<leader>air", "<cmd>PrtChatResponde<cr>", { desc = "AI. Response an answer in chat" })
+-- Codex
+map({ "n", "t" }, "<leader>aic", function()
+	require("utils.codex").toggle()
+end, { desc = "AI. Toggle Codex" })
+map("n", "<leader>ais", function()
+	require("utils.codex").auth_status()
+end, { desc = "AI. Codex authentication status" })
+
+vim.api.nvim_create_user_command("Codex", function()
+	require("utils.codex").toggle()
+end, { desc = "Toggle Codex CLI" })
+
+vim.api.nvim_create_user_command("CodexStatus", function()
+	require("utils.codex").auth_status()
+end, { desc = "Show Codex authentication status" })

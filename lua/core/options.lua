@@ -24,5 +24,5 @@ vim.opt.expandtab = true
 vim.opt.mouse = "a"
 vim.opt.clipboard = "unnamedplus"
 
-vim.cmd("colorscheme everforest")
+vim.cmd("colorscheme gruvbox-material")
 vim.o.background = "dark"
