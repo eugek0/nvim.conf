@@ -52,9 +52,30 @@ local function relative_path(root, filename)
 	return vim.fs.relpath(root, filename) or filename
 end
 
+local function buffer_file(bufnr)
+	local filename = vim.api.nvim_buf_get_name(bufnr)
+	local root = root_for_file(filename)
+	if root then
+		return { bufnr = bufnr, root = root, file = relative_path(root, filename) }
+	end
+
+	-- The right side of a staged/commit diff is a virtual buffer too.
+	-- Resolve it through Diffview rather than parsing its URI as a disk path.
+	local diffview = package.loaded["diffview.lib"]
+	for _, view in ipairs(diffview and diffview.views or {}) do
+		local layout = view.cur_entry and view.cur_entry.layout
+		local file = layout and layout.b and layout.b.file
+		if file and file.bufnr == bufnr and not file.nulled then
+			return { bufnr = bufnr, root = file.adapter.ctx.toplevel, file = file.path }
+		end
+	end
+end
+
 local function current_root()
-	local filename = vim.api.nvim_buf_get_name(0)
-	return root_for_file(filename) or vim.fs.root(vim.uv.cwd(), ".git")
+	local location = buffer_file(vim.api.nvim_get_current_buf())
+	local diffview = package.loaded["diffview.lib"]
+	local view = diffview and diffview.get_current_view()
+	return location and location.root or (view and view.adapter.ctx.toplevel) or vim.fs.root(vim.uv.cwd(), ".git")
 end
 
 local function render_buffer(bufnr)
@@ -63,13 +84,12 @@ local function render_buffer(bufnr)
 	end
 
 	vim.api.nvim_buf_clear_namespace(bufnr, namespace, 0, -1)
-	local filename = vim.api.nvim_buf_get_name(bufnr)
-	local root = root_for_file(filename)
-	if not root then
+	local location = buffer_file(bufnr)
+	if not location then
 		return
 	end
 
-	local file = relative_path(root, filename)
+	local root, file = location.root, location.file
 	local line_count = vim.api.nvim_buf_line_count(bufnr)
 	for _, comment in ipairs(load(root)) do
 		local line = comment.kind == "file" and 1 or comment.line_start
@@ -90,18 +110,12 @@ local function render_buffer(bufnr)
 end
 
 local function current_file()
-	local bufnr = vim.api.nvim_get_current_buf()
-	local filename = vim.api.nvim_buf_get_name(bufnr)
-	local root = root_for_file(filename)
-	if not root then
-		notify("Place the cursor in a working-tree file (the right Diffview pane)", vim.log.levels.ERROR)
+	local location = buffer_file(vim.api.nvim_get_current_buf())
+	if not location then
+		notify("Place the cursor in a repository file or the right Diffview pane", vim.log.levels.ERROR)
 		return nil
 	end
-	return {
-		bufnr = bufnr,
-		root = root,
-		file = relative_path(root, filename),
-	}
+	return location
 end
 
 local function current_location(line_start, line_end)
