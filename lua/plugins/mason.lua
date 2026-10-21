@@ -6,7 +6,8 @@ return {
 			"neovim/nvim-lspconfig",
 		},
 		opts = {
-			automatic_enable = true,
+			-- TypeScript servers are selected per project in utils.typescript.
+			automatic_enable = { exclude = { "ts_ls", "vtsls", "tsgo", "tsc" } },
 		},
 	},
 
