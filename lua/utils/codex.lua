@@ -74,6 +74,10 @@ local function terminal(mode)
 		end,
 		on_open = function(term)
 			active_terminal = term
+			-- ToggleTerm may split an existing terminal at the bottom of the screen.
+			vim.api.nvim_win_call(term.window, function()
+				vim.cmd("wincmd L")
+			end)
 			vim.api.nvim_win_set_width(term.window, math.floor(vim.o.columns * 0.5))
 			vim.cmd("startinsert")
 			vim.keymap.set("t", "<C-j>", "<C-j>", {
@@ -131,7 +135,7 @@ function M.clear_review_comments()
 end
 
 function M.send_review_comments()
-	local prompt, count = review_comments.prompt()
+	local prompt, count, mark_used = review_comments.prompt()
 	if not prompt then
 		return
 	end
@@ -142,11 +146,13 @@ function M.send_review_comments()
 		return
 	end
 
-	if not active_terminal:is_open() then
-		active_terminal:open()
+	local target = active_terminal
+	if not target:is_open() then
+		target:open()
 	end
 	vim.defer_fn(function()
-		active_terminal:send(prompt, false)
+		target:send(prompt, false)
+		mark_used()
 		vim.notify(string.format("Sent %d review comment(s) to Codex", count), vim.log.levels.INFO, {
 			title = "Codex review",
 		})

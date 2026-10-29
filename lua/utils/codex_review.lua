@@ -99,6 +99,9 @@ local function render_buffer(bufnr)
 				text = text:sub(1, 77) .. "..."
 			end
 			local prefix = comment.kind == "file" and " FILE REVIEW: " or " REVIEW: "
+			if comment.used then
+				prefix = " [USED]" .. prefix
+			end
 			vim.api.nvim_buf_set_extmark(bufnr, namespace, line - 1, 0, {
 				sign_text = "R",
 				sign_hl_group = "DiagnosticWarn",
@@ -107,6 +110,48 @@ local function render_buffer(bufnr)
 			})
 		end
 	end
+end
+
+local function refresh_buffers()
+	for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+		if vim.api.nvim_buf_is_loaded(bufnr) then
+			render_buffer(bufnr)
+		end
+	end
+end
+
+local function add_comment(root, comment)
+	local comments = load(root)
+	for _, previous in ipairs(comments) do
+		if previous.used then
+			local choice = vim.fn.confirm(
+				"Delete previously sent review comments before adding the new comment?",
+				"&Delete\n&Keep\n&Cancel",
+				3
+			)
+			if choice ~= 1 and choice ~= 2 then
+				return false
+			end
+			if choice == 1 then
+				local remaining = {}
+				for _, entry in ipairs(comments) do
+					if not entry.used then
+						table.insert(remaining, entry)
+					end
+				end
+				cache[root] = remaining
+				comments = remaining
+			end
+			break
+		end
+	end
+
+	table.insert(comments, comment)
+	if save(root) then
+		refresh_buffers()
+		return true
+	end
+	return false
 end
 
 local function current_file()
@@ -148,16 +193,16 @@ function M.add(line_start, line_end)
 			return
 		end
 
-		table.insert(load(location.root), {
-			kind = "line",
-			file = location.file,
-			line_start = location.line_start,
-			line_end = location.line_end,
-			text = text,
-			code = location.code,
-		})
-		if save(location.root) then
-			render_buffer(location.bufnr)
+		if
+			add_comment(location.root, {
+				kind = "line",
+				file = location.file,
+				line_start = location.line_start,
+				line_end = location.line_end,
+				text = text,
+				code = location.code,
+			})
+		then
 			notify("Comment saved for " .. label)
 		end
 	end)
@@ -175,13 +220,11 @@ function M.add_file()
 			return
 		end
 
-		table.insert(load(location.root), {
+		if add_comment(location.root, {
 			kind = "file",
 			file = location.file,
 			text = text,
-		})
-		if save(location.root) then
-			render_buffer(location.bufnr)
+		}) then
 			notify("File comment saved for " .. location.file)
 		end
 	end)
@@ -202,7 +245,7 @@ function M.list()
 			lnum = is_file and 1 or comment.line_start,
 			end_lnum = is_file and 1 or comment.line_end,
 			col = 1,
-			text = (is_file and "[FILE] " or "") .. comment.text,
+			text = (comment.used and "[USED] " or "") .. (is_file and "[FILE] " or "") .. comment.text,
 		})
 	end
 
@@ -271,7 +314,16 @@ function M.prompt()
 		end
 		table.insert(lines, "")
 	end
-	return table.concat(lines, "\n"), #comments
+	-- Capture the submitted entries before opening the terminal changes the current buffer.
+	local submitted = vim.list_extend({}, comments)
+	local function mark_used()
+		for _, comment in ipairs(submitted) do
+			comment.used = true
+		end
+		save(root)
+		refresh_buffers()
+	end
+	return table.concat(lines, "\n"), #comments, mark_used
 end
 
 vim.api.nvim_create_autocmd({ "BufReadPost", "BufWinEnter" }, {
